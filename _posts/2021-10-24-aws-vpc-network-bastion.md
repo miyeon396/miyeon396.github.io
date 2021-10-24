@@ -3,6 +3,7 @@ layout: single
 title: "[aws] VPC, Network, Bastion"
 ---
 
+---
 ### VPC
 
  - 신규 리전 외의 2019년도 생성 기존 리전은 vpc 생성 시 기본적으로 생성이 됨
@@ -52,7 +53,8 @@ title: "[aws] VPC, Network, Bastion"
 
 ##### 라우팅 테이블 생성 
 - 서브넷 티어별로 한개씩 만듦
-- 어디로 향하게 설정하는가가 중요. 만들고 각 라우팅테이블 별 생성해놓은 서브넷 연결.
+- 프라이빗 서브넷의 경우 az별 2개씩 만드는 이유 -> 장애나 재해 발생 시 서비스가 유지가 되어야 하기 때문에 2개의 Routing Table 놓고 트래픽이 흐르도록 구성
+- 어디로 향하게 설정하는가가 중요. 만들고 각 라우팅 테이블 별 생성해놓은 서브넷 연결.
 - 예제
 	1. RT-PRIVATE-WEB (nat필요)
  인터넷 접속할 필요가 있을까? 없음.
@@ -79,6 +81,7 @@ title: "[aws] VPC, Network, Bastion"
 
 ---
 ### NAT Gateway (Network Address Translation Gateway)
+> Private의 리소스들이 Interet과 통신하기 위해 나갈 수 있는 통로 -> 외부통신!
 
 - 엣날엔 나트 인스턴스엿는데 나트 게이트웨이로 이름이 바뀜
 - 외부 통신 : 인터넷 -> 퍼블릭으로만 통신 -> 퍼블릭 ip가 있어야 통신 가능
@@ -89,7 +92,7 @@ title: "[aws] VPC, Network, Bastion"
 	- 구성 자체가 각자가 프라이빗 아이피만 갖고있는 애들만 놓음
 	- 퍼블릭에 접속하지 못하는 애들을 모아서 막아 놓음
 - 퍼블릭 서브넷 
-	-  VPC 내부로 들어가려면 Bastion이라던가,  Public 서브넷에 있는 애를 통해서 들어가야 한다
+	-  VPC 내부로 들어가려면 Bastion이라던가, Public 서브넷에 있는 애를 통해서 들어가야 한다
 - -> AWS API로 갖고 온다던지, 환율 정보 갖고 온다던지 서브넷들에 있는 통로를 나트에 모아서 하나의 공통된 통로를 이용해 인터넷에 접속
 
 ##### NAT Gateway 생성
@@ -117,12 +120,12 @@ title: "[aws] VPC, Network, Bastion"
 	- 프라이빗에 있는 애들은 퍼블릭 아이피를 달아야하는 과정이 필요하므로 NAT를 먼저 들린다. 그럼 NAT에서 퍼블릭 아이피 단 상태에서 IGW 통해서 나갈 수 있는 상태가 된다.
  
 ##### 인터넷 게이트웨이 생성
--  생성 후 VPC에 연결
+- 생성 후 VPC에 연결
 	- 인터넷 게이트웨이 연결 유무에 따라 인터넷 통신이 필요한 VPC구나 아니구나 판단 가능
- - 퍼블릭으로 만들어 놓은 라우팅 테이블(=인터넷 연결이 필요한 친구들)에 IGW 추가해줌
-	 - 라우팅 테이블에 0.0.0.0 으로 연결 
-	 - 라우팅 테이블에 추가할 애들은 인테넷 연결이 필요한 친구들
-	 - 인터넷 연결이 필요 없는 나머지 프라이빗 친구들은 IGW 생성 후 NAT도 생성 한 후에 라우팅 테이블에 NAT를 연결해준다.
+- 퍼블릭으로 만들어 놓은 라우팅 테이블(=인터넷 연결이 필요한 친구들)에 IGW 추가해줌
+ - 라우팅 테이블에 0.0.0.0 으로 연결 
+ - 라우팅 테이블에 추가할 애들은 인테넷 연결이 필요한 친구들
+ - 인터넷 연결이 필요 없는 나머지 프라이빗 친구들은 IGW 생성 후 NAT도 생성 한 후에 라우팅 테이블에 NAT를 연결해준다.
 
 ---
 ### Bastion
@@ -132,6 +135,13 @@ title: "[aws] VPC, Network, Bastion"
 - Bastion에는 eip 설정 필요. 한개 할당 받아서 Bastion에 붙여줌
 - 접속하기 위해서는 보안그룹 필요 만들어줌 
 ex) ssh (22) 로 접속할 곳(사무실, 집 등) 인바운드 열어줌
+- 접속 후 Private Subnet의 EC2 인터넷 접속 test
+  1. Bastion 접속
+  2. ssh -i key-ec2-key.pem ubuntu@10.10.10.100 : ssh를 통한 ec2 접속
+  3. ping google.co.kr
+    - 된다? Public Routing Table에 Nat를 잘 연결했다. Private Routing Table에 IGW를 잘 연결했다.
+    - 안된다? 뭔가 Routes를 빼먹었다. 다시 체크
+
 
 TODO :: 베스천에 otp 거는법
 TODO :: SSM, CW Agent 설치 법 정리
@@ -141,7 +151,7 @@ TODO :: SSM, CW Agent 설치 법 정리
 
 1. VPC를 생성한다.
 2. 할당 받은 IP들을 잘 사용하기 위해 서브넷 구성 및 서브네팅을 한다.
-3. Private Subnet 내의 Server들이 외부와 통신을 하기 위해 Routing Table, NAT Gateway, IGW 를 생성한다.
+3. Private Subnet 내의 Server들이 외부와 통신을 하기 위해 Routing Table, IGW, NAT Gateway를 생성한다.
 	- 프라이빗 서브넷에 있는 애들은 퍼블릭 서브넷의 NAT 통해서 IGW 통해서 나감
 4. 외부 통신을 위해 Bastion Server를 하나 구성한다.
 	- Bastion은 퍼블릭 서브넷에 있고 본인 IP가 있기 때문에 바로 IGW통해서 바로 나감
