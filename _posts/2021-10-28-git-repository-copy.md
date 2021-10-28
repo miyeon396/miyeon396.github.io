@@ -1,4 +1,5 @@
 ---
+layout : single
 title : [Git] Repository Copy
 ---
 ### Git Repository 통으로 복사 (내 로컬에 있는게 통 복사가 됨)
