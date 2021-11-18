@@ -1,0 +1,17 @@
+---
+layout: single
+title: "[git] Reset 명령어"
+---
+
+# git reset 명령
+
+1. git reset --hard b1f78bc
+- 다 날려버림
+
+2. git reset --soft b1f78bc
+- 작업 이력 다 보존 및 stage에 고대로 있음
+
+3. git reset --mixed b1f78bc (default) 
+- 작업 이력 보존이나 커밋을 위해 다시 지정해야함
+
+4. git reset HEAD~1 : 현재부터 1개 전
