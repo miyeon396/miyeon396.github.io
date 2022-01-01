@@ -1,5 +1,6 @@
 ---
 layout : single
+categories: Git
 title : "[Git] Repository Copy"
 ---
 

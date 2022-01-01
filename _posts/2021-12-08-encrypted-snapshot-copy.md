@@ -1,6 +1,7 @@
 ---
 layout: single
-title: "[aws] Instance 다른 계정으로 복제"
+categories: Aws
+title: "[Aws] Instance 다른 계정으로 복제"
 ---
 
 ---

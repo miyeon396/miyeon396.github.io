@@ -1,5 +1,6 @@
 ---
 layout: single
+categories: Mysql
 title: "[MySQL] Text DataType"
 ---
 

@@ -1,6 +1,7 @@
 ---
 layout: single
-title: "[aws] VPC, Network, Bastion"
+categories: Aws
+title: "[Aws] VPC, Network, Bastion"
 ---
 
 ---

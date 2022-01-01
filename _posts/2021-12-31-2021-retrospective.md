@@ -13,7 +13,7 @@ title: "[Retro] 2021 회고"
         - 1차 버전 릴리즈 후의 기능 개선
         - 수신인 추가, 메신저 웹훅 추가, 수신 거부 추가
     2. OCI Usage, Performance 수집 개발
-    3. NCP Usaeg, Performance 수집 개발
+    3. NCP Usage, Performance 수집 개발
     4. Azure Usage, Performance 수집 개발
     5. Elasitic Search Batch 개선 및 전체 벤더 Migration
         - LogStash 걷어냄
@@ -27,6 +27,7 @@ title: "[Retro] 2021 회고"
         - 벤더 리소스별 확장 가능한 서비스 구조로 개선
         - 분산 처리
         - 룰 개선
+        - Company별로 1시간 이상 수행 분석 배치를 실행 후 10분 under로 완료
         - Legacy 500줄 쿼리를 100줄미만 쿼리+로직으로 변경
         - EBS, ELB, EIP, EC2, RDS
     8. Azure 서비스 신규배치로의 전환
@@ -70,7 +71,7 @@ title: "[Retro] 2021 회고"
     - 심플 소프트웨어
     - ?_?
 4. 귀찮지만 기본을 지켜보자 제대로 프로세스 적립해보자 3개
-5. 살이 너무 많이 쪘어 적당알콜+살패기 1년이니까 12키로 (히든 ORK ㅋㅋ)
+5. 살이 너무 많이 쪘어 적당알콜+살패기 1년이니까 12키로 (히든 OKR ㅋㅋ)
 
 ## 마쳐라
 

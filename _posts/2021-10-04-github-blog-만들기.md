@@ -1,5 +1,6 @@
 ---
 layout: "single"
+categories: Github
 title: "GitHub Blog 만들기"
 ---
 
