@@ -1,5 +1,6 @@
 ---
 layout: single
+categories: Common
 title: "[Retro] 2021 회고"
 ---
 
