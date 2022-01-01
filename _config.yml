@@ -283,7 +283,8 @@ defaults:
     values:
       layout: single
       author_profile: true
-      read_time: true
-      comments: # true
+      read_time: false #읽는데 걸리는 시간
+      show_date : true #날짜 표시
+      comments:  true
       share: true
       related: true
