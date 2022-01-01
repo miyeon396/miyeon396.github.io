@@ -1,7 +1,7 @@
 ---
 title: "Common test"
 layout: archive
-permalink: categories/common"
+permalink: categories/common
 author_profile: true
 sidebar_main: true
 ---
